@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My crashSite</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    header {
+      background: #1976d2;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #42a5f5, #1e88e5);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin: 10px;
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+    }
+
+    .btn-crash {
+      background: linear-gradient(135deg, #e53935, #b71c1c);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1976d2;
+      color: white;
+      margin-top: 40px;
+    }
+
+    /* Glitch overlay */
+    .glitch {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: lime;
+      font-size: 40px;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: glitch 0.2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { background: black; color: lime; }
+      25% { background: red; color: white; transform: skewX(10deg); }
+      50% { background: purple; color: yellow; transform: skewY(10deg); }
+      75% { background: blue; color: cyan; transform: skewX(-10deg); }
+      100% { background: black; color: lime; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <h1>SITE</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Welcome to MY BUM</h2>
+    <p>This site shows a styled layout, a working download button, and even a crash button!</p>
+    <button class="btn btn-download" onclick="downloadFile()">Download Image</button>
+    <button class="btn btn-crash" onclick="crashSite()">Return</button>
+    <p style="font-size:14px; margin-top:20px;">
+      💡 Tip: Tap 3 times quickly anywhere on the page to <b>reload</b>.
+    </p>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <div class="card">
+      <h3>Fast</h3>
+      <p>Built with pure HTML, CSS, and JavaScript — no frameworks required.</p>
+    </div>
+    <div class="card">
+      <h3>Lightweight</h3>
+      <p>Runs directly in your browser, perfect for mobile testing.</p>
+    </div>
+    <div class="card">
+      <h3>Fun</h3>
+      <p>Includes a glitchy crash button that takes down the site 💥.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 prototype</p>
+  </footer>
+
+  <script>
+    // Force download local image
+    async function downloadFile() {
+      const fileUrl = "download.jpg"; // Put your PNG or JPG in same folder
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "hond";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Crash with glitch effect
+    function crashSite() {
+      const overlay = document.createElement("div");
+      overlay.className = "glitch";
+      overlay.innerText = "💥 SITE CRASHED 💥\n(Tap 3x quickly to reload)";
+      document.body.appendChild(overlay);
+
+      // After 2s, lock up the browser
+      setTimeout(() => {
+        while (true) {
+          console.log("💥 Crash!");
+        }
+      }, 2000);
+    }
+
+    // Triple-tap reload (escape hatch)
+    let tapCount = 0;
+    document.addEventListener("click", () => {
+      tapCount++;
+      if (tapCount === 3) {
+        location.reload();
+      }
+      setTimeout(() => tapCount = 0, 1000); // reset after 1s
+    });
+  </script>
+
+</body>
+</html>
